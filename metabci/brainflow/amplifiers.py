@@ -640,7 +640,7 @@ class DataAcquisition:
                     try:
                         data = device.detected_data.get(timeout=60)
                     except queue.Empty:
-                        print(f"No data available from device '{str(device)}' after 10 seconds. Skipping this device.")
+                        print(f"No data available from device '{str(device)}' after 60 seconds. Skipping this device.")
                         continue
                     
                     if data: 
