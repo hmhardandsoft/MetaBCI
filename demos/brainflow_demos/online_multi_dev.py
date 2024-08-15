@@ -303,7 +303,7 @@ if __name__ == "__main__":
     #按照实际情况添加设备并设置参数
     test.add_device("Niantong",port_addr = 'COM12',baudrate=9600,fs=500,num_chans=8)
     test.add_device("Nianji",port_addr = 'COM16')
-    test.add_device("Neuracle",device_address = ('127.0.0.1', 8712),srate=1000,num_chans=9)
+    test.add_device("Neuracle",device_address = ('127.0.0.1', 8712),srate=500,num_chans=9)
     #连接设备并注册worker和marker
     test.connect_device()
     test.start_acquisition()
@@ -427,7 +427,7 @@ if __name__ == "__main__":
         time.sleep(1)
         
         #nt_port.port.close()
-        ##brk_port.port.close()
+        #brk_port.port.close()
         
         thread.join(timeout=5)
         if thread.is_alive():
