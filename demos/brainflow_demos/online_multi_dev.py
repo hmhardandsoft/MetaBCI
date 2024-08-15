@@ -74,12 +74,13 @@ class SCCA(BaseEstimator, TransformerMixin, ClassifierMixin):
      
                  if len(rhos_) < 2:
                      labels = self.lda_.predict(rhos)
-     
-                 # 选择最大相关系数
-                 new_rhos = np.maximum.reduce(rhos_)
-     
-                 # 使用训练好的 LDA 分类器进行预测
-                 labels = self.lda_.predict(new_rhos)
+
+                 else:
+                     # 选择最大相关系数
+                     new_rhos = np.maximum.reduce(rhos_)
+         
+                     # 使用训练好的 LDA 分类器进行预测
+                     labels = self.lda_.predict(new_rhos)
              else:
                  rhos = self.transform(X)
                  print('length rhos2', rhos.shape)
