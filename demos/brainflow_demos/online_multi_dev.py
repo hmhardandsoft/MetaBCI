@@ -123,8 +123,8 @@ def read_data(run_files, chs, interval, labels):
 def train_model(X, y, srate=500):
     if not isinstance(X, np.ndarray):
         raise ValueError("X should be a NumPy array.")
-    y = np.reshape(y, (-1))  
-    #X = resample(X, up=250, down=srate)
+    y = np.reshape(y,(-1))
+    # X = resample(X, up=250, down=srate)
 
     X = mne.filter.notch_filter(X, Fs=srate, freqs=50, picks=np.arange(X.shape[1]), method='fir', fir_window='hamming',
                                 fir_design='firwin', verbose=False)
@@ -421,6 +421,7 @@ if __name__ == "__main__":
         time.sleep(1)
         
         #nt_port.port.close()
+        ##brk_port.port.close()
         
         thread.join(timeout=5)
         if thread.is_alive():
