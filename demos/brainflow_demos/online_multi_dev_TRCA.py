@@ -4,8 +4,8 @@ import numpy as np
 
 from metabci.brainstim.framework import Experiment
 from metabci.brainstim.paradigm import paradigm,SSVEP
-#from metabci.brainflow.amplifiers import DataAcquisition
-#from metabci.brainstim.utils import NeuraclePort,Niantong_port
+from metabci.brainflow.amplifiers import DataAcquisition
+from metabci.brainstim.utils import NeuraclePort,Niantong_port
 import time
 import mne
 from mne.filter import resample
@@ -276,7 +276,7 @@ if __name__ == "__main__":
     stim_labels = list(range(1, 21))
     stim_labels[12]=21
     cnts = 1
-    filepath = r"C:\Users\husai\Desktop\metabci\MetaBCI\MetaBCI\data\test\fif\12.fif"
+    filepath = r"path\to\your\data"
 
     run_files = ['{:s}'.format(filepath)]
     pick_chs = ['TP10', 'O2', 'OZ', 'O1', 'POZ', 'PZ', 'TP9', 'FCZ']
@@ -296,9 +296,9 @@ if __name__ == "__main__":
 
     test = DataAcquisition()
     #按照实际情况添加设备并设置参数
-    #test.add_device("Niantong",port_addr = 'COM14',baudrate=9600,fs=500,num_chans=8)
+    #test.add_device("Niantong",port_addr = 'COM14',baudrate=9600,fs=1000,num_chans=8)
     #test.add_device("Nianji",port_addr = 'COM19')
-    test.add_device("Neuracle",device_address = ('127.0.0.1', 8712),srate=500,num_chans=9)
+    test.add_device("Neuracle",device_address = ('127.0.0.1', 8712),srate=1000,num_chans=9)
     #连接设备并注册worker和marker
     test.connect_device()
     test.start_acquisition()
