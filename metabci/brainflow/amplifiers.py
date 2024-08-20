@@ -19,7 +19,7 @@ from queue import Queue
 import queue
 
 import re
-my_dll = ctypes.CDLL("path_to_LinkMe.dll")
+my_dll = ctypes.CDLL(r"D:\\test\\LinkMe.dll")
 my_dll.dataProtocol.argtypes = (ctypes.POINTER(ctypes.c_ubyte),ctypes.c_int)
 my_dll.dataProtocol.restype = ctypes.c_int
 my_dll.getElectricityValue.restype = ctypes.c_int
@@ -542,6 +542,7 @@ class DataAcquisition:
         self._workers = {}
         self.exit_ = threading.Event() 
         self.data_test=[]
+        self._threads = {}
         
     def add_device(self, device_type, **kwargs):
          amplifier = DeviceManager.create_amplifier(device_type, **kwargs)
@@ -567,13 +568,8 @@ class DataAcquisition:
             self.unregister_worker(name)
         
     def start_acquisition(self):
-        threads1 = []
         for device in self.devices:
-            thread = threading.Thread(target=device.start_acquisition)
-            threads1.append(thread)
-            thread.start()
-        for thread in threads1:
-            thread.join()
+            device.start_acquisition()
 
     def register(self, name, worker:ProcessWorker, interval, srate, events):
         logger_amp.info("register worker-{}".format(name))
@@ -593,13 +589,25 @@ class DataAcquisition:
             del device.markers[name]
 
     def up_worker(self, name):
-       logger_amp.info("up worker-{}".format(name))
-       self._workers[name].start()
+        logger_amp.info("up worker-{}".format(name))
+        #self._workers[name].start()
+        thread = threading.Thread(target=self.put_in_worker_queue, args=(name,))
+        self._threads[name] = thread
+        thread.start()
     
     def down_worker(self, name):
         logger_amp.info("down worker-{}".format(name))
-        self._workers[name].stop()
-        self._workers[name].clear_queue()
+        # self._workers[name].stop()
+        # self._workers[name].clear_queue()
+        if name in self._threads:
+            thread = self._threads[name]
+            thread.join(timeout=5)
+            if thread.is_alive():
+                thread._stop()
+            del self._workers[name]
+        else:
+            print("Worker {} not found.".format(name))
+        
      
     def start(self,name):
         """start the loop."""
