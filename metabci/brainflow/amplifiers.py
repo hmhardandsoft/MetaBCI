@@ -19,7 +19,7 @@ from queue import Queue
 import queue
 
 import re
-my_dll = ctypes.CDLL(r"D:\\test\\LinkMe.dll")
+my_dll = ctypes.CDLL("path_to_LinkMe.dll")
 my_dll.dataProtocol.argtypes = (ctypes.POINTER(ctypes.c_ubyte),ctypes.c_int)
 my_dll.dataProtocol.restype = ctypes.c_int
 my_dll.getElectricityValue.restype = ctypes.c_int
