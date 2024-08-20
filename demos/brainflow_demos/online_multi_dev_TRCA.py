@@ -409,8 +409,7 @@ if __name__ == "__main__":
         time.sleep(1)
         test.start(feedback_worker_name)
         time.sleep(1)
-        thread = threading.Thread(target=(test.put_in_worker_queue),args=(feedback_worker_name,))
-        thread.start()
+        test.up_worker(feedback_worker_name)
         print('are you OK? Step 6')
         ex.run()
         
@@ -424,6 +423,4 @@ if __name__ == "__main__":
         #nt_port.port.close()
         brk_port.port.close()
         
-        thread.join(timeout=5)
-        if thread.is_alive():
-            thread._stop()
+        test.down_worker(feedback_worker_name)
